@@ -1,0 +1,256 @@
+/* Global Styles */
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+/* Body */
+body {
+  background-color: #f7f9fd;
+}
+
+/* Container */
+.container {
+  width: 90vw;
+  max-width: 62.5em;
+  margin: auto;
+  position: relative;
+}
+
+/* Add Flashcard Button */
+.add-flashcard-con {
+  display: flex;
+  justify-content: flex-end;
+  padding: 1.2em 1em;
+}
+
+button {
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.add-flashcard-con button {
+  font-size: 1em;
+  background-color: #587ef4;
+  color: #ffffff;
+  padding: 0.8em 1.2em;
+  font-weight: 500;
+  border-radius: 0.4em;
+}
+
+/* Card Container */
+#card-con {
+  margin-top: 1em;
+}
+
+/* Add Flashcard Form */
+.question-container {
+  width: 90vw;
+  max-width: 34em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #ffffff;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+  padding: 3em 2em;
+  border-radius: 0.6em;
+  box-shadow: 0 1em 2em rgba(28, 0, 80, 0.1);
+}
+
+.question-container h2 {
+  font-size: 2.2em;
+  color: #363d55;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 2em;
+}
+
+/* Error Message */
+.error-con {
+  align-self: center;
+}
+
+#error {
+  color: #ff5353;
+  font-weight: 400;
+}
+
+/* Close Button */
+.fa-xmark {
+  font-size: 1.4em;
+  background-color: #587ef4;
+  height: 1.8em;
+  width: 1.8em;
+  display: grid;
+  place-items: center;
+  color: #ffffff;
+  border-radius: 50%;
+  cursor: pointer;
+  justify-self: flex-end;
+}
+
+/* Labels */
+label {
+  color: #363d55;
+  font-weight: 600;
+  margin-bottom: 0.3em;
+}
+
+/* Textarea Styling */
+textarea {
+  width: 100%;
+  padding: 0.7em 0.5em;
+  border: 1px solid #d0d0d0;
+  outline: none;
+  color: #414a67;
+  border-radius: 0.3em;
+  resize: none;
+}
+
+textarea:not(:last-child) {
+  margin-bottom: 1.2em;
+}
+
+textarea:focus {
+  border-color: #363d55;
+}
+
+/* Save Button */
+#save-btn {
+  font-size: 1em;
+  background-color: #587ef4;
+  color: #ffffff;
+  padding: 0.6em 0;
+  border-radius: 0.3em;
+  font-weight: 600;
+}
+
+/* Card List Container */
+.card-list-container {
+  display: grid;
+  padding: 0.2em;
+  gap: 1.5em;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+/* Card Flip */
+.card {
+  width: 100%;
+  height: 200px;
+  background-color: #ffffff;
+  box-shadow: 0 0.4em 1.2em rgba(28, 0, 80, 0.08);
+  border-radius: 0.4em;
+  perspective: 1000px;
+  position: relative;
+}
+
+.card-inner {
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.5s;
+}
+
+.card:hover .card-inner {
+  transform: rotateY(180deg);
+}
+
+.card-front,
+.card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1em;
+}
+
+.card-front {
+  background-color: #f0f0f0;
+}
+
+.card-back {
+  background-color: #f7f9fd;
+  transform: rotateY(180deg);
+}
+
+/* Question and Answer */
+.question-div,
+.answer-div {
+  font-weight: 500;
+  color: #363d55;
+  text-align: center;
+  padding: 10px;
+}
+
+.answer-div {
+  color: #414a67;
+  font-weight: 400;
+}
+
+/* Show/Hide Answer */
+.show-hide-btn {
+  background-color: #587ef4;
+  color: white;
+  padding: 0.6em 1em;
+  border-radius: 0.3em;
+  cursor: pointer;
+  text-align: center;
+  display: block;
+  margin-top: 10px;
+}
+
+.show-hide-btn:hover {
+  background-color: #355fa1;
+}
+
+/* Buttons for Edit/Delete */
+.buttons-con {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.edit,
+.delete {
+  background-color: transparent;
+  font-size: 1.2em;
+  cursor: pointer;
+  color: #587ef4;
+}
+
+.delete {
+  color: #ff5353;
+}
+
+/* Hide Class */
+.hide {
+  display: none;
+}
+
+/* Media Queries */
+@media screen and (max-width: 800px) {
+  .card-list-container {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.8em;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  body {
+    font-size: 14px;
+  }
+  .card-list-container {
+    grid-template-columns: 1fr;
+    gap: 1.2em;
+  }
+}
