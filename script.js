@@ -1,3 +1,4 @@
+// script.js
 const container = document.querySelector(".container");
 const addQuestionCard = document.getElementById("add-question-card");
 const cardButton = document.getElementById("save-btn");
@@ -6,9 +7,29 @@ const answer = document.getElementById("answer");
 const errorMessage = document.getElementById("error");
 const addQuestion = document.getElementById("add-flashcard");
 const closeBtn = document.getElementById("close-btn");
+const cardCounter = document.getElementById("card-counter");
+const clearAllBtn = document.getElementById("clear-all");
+const toggleDarkMode = document.getElementById("toggle-dark-mode");
 let editBool = false;
+let cardCount = 0;
 
-// Add question when user clicks 'Add Flashcard' button
+// Dark mode toggle
+toggleDarkMode.addEventListener("click", () => {
+  document.body.classList.toggle("dark-mode");
+  const isDark = document.body.classList.contains("dark-mode");
+  toggleDarkMode.innerHTML = isDark 
+    ? '<i class="fa-solid fa-sun"></i>' 
+    : '<i class="fa-solid fa-moon"></i>';
+  localStorage.setItem("darkMode", isDark);
+});
+
+// Load dark mode preference
+if (localStorage.getItem("darkMode") === "true") {
+  document.body.classList.add("dark-mode");
+  toggleDarkMode.innerHTML = '<i class="fa-solid fa-sun"></i>';
+}
+
+// Add question
 addQuestion.addEventListener("click", () => {
   container.classList.add("hide");
   question.value = "";
@@ -16,7 +37,7 @@ addQuestion.addEventListener("click", () => {
   addQuestionCard.classList.remove("hide");
 });
 
-// Hide Create flashcard Card
+// Close form
 closeBtn.addEventListener("click", () => {
   container.classList.remove("hide");
   addQuestionCard.classList.add("hide");
@@ -26,7 +47,7 @@ closeBtn.addEventListener("click", () => {
   }
 });
 
-// Submit Question
+// Submit question
 cardButton.addEventListener("click", () => {
   editBool = false;
   const tempQuestion = question.value.trim();
@@ -40,25 +61,35 @@ cardButton.addEventListener("click", () => {
     viewlist();
     question.value = "";
     answer.value = "";
+    if (!editBool) cardCount++;
+    updateCardCounter();
   }
 });
 
-// Card Generate with Flip Effect
+// Clear all cards
+clearAllBtn.addEventListener("click", () => {
+  if (confirm("Are you sure you want to clear all flashcards?")) {
+    document.querySelector(".card-list-container").innerHTML = "";
+    cardCount = 0;
+    updateCardCounter();
+  }
+});
+
+// Generate card
 function viewlist() {
-  const listCard = document.getElementsByClassName("card-list-container")[0];
+  const listCard = document.querySelector(".card-list-container");
   const div = document.createElement("div");
   div.classList.add("card");
+  div.style.animation = "cardAppear 0.5s ease-in";
+  let isFavorite = false;
 
-  // Create the inner part of the card to allow flipping
   const cardInner = document.createElement("div");
   cardInner.classList.add("card-inner");
 
-  // Front side with the question
   const cardFront = document.createElement("div");
   cardFront.classList.add("card-front");
   cardFront.innerHTML = `<p class="question-div">${question.value}</p>`;
 
-  // Back side with the answer
   const cardBack = document.createElement("div");
   cardBack.classList.add("card-back");
   cardBack.innerHTML = `<p class="answer-div">${answer.value}</p>`;
@@ -67,11 +98,25 @@ function viewlist() {
   cardInner.appendChild(cardBack);
   div.appendChild(cardInner);
 
-  // Edit button
   let buttonsCon = document.createElement("div");
   buttonsCon.classList.add("buttons-con");
+  
+  // Favorite button
+  const favoriteButton = document.createElement("button");
+  favoriteButton.classList.add("favorite");
+  favoriteButton.innerHTML = `<i class="fa-regular fa-star"></i>`;
+  favoriteButton.addEventListener("click", () => {
+    isFavorite = !isFavorite;
+    div.classList.toggle("favorite-card");
+    favoriteButton.innerHTML = isFavorite 
+      ? `<i class="fa-solid fa-star"></i>` 
+      : `<i class="fa-regular fa-star"></i>`;
+  });
+  buttonsCon.appendChild(favoriteButton);
+
+  // Edit button
   const editButton = document.createElement("button");
-  editButton.setAttribute("class", "edit");
+  editButton.classList.add("edit");
   editButton.innerHTML = `<i class="fa-solid fa-pen-to-square"></i>`;
   editButton.addEventListener("click", () => {
     editBool = true;
@@ -79,14 +124,15 @@ function viewlist() {
     addQuestionCard.classList.remove("hide");
   });
   buttonsCon.appendChild(editButton);
-  disableButtons(false);
 
   // Delete button
   const deleteButton = document.createElement("button");
-  deleteButton.setAttribute("class", "delete");
+  deleteButton.classList.add("delete");
   deleteButton.innerHTML = `<i class="fa-solid fa-trash-can"></i>`;
   deleteButton.addEventListener("click", () => {
     modifyElement(deleteButton);
+    cardCount--;
+    updateCardCounter();
   });
   buttonsCon.appendChild(deleteButton);
 
@@ -95,7 +141,7 @@ function viewlist() {
   hideQuestion();
 }
 
-// Modify elements (edit or delete)
+// Modify elements
 const modifyElement = (element, edit = false) => {
   const parentDiv = element.parentElement.parentElement;
   const parentQuestion = parentDiv.querySelector(".question-div").innerText;
@@ -110,7 +156,12 @@ const modifyElement = (element, edit = false) => {
   parentDiv.remove();
 };
 
-// Disable edit and delete buttons
+// Update card counter
+function updateCardCounter() {
+  cardCounter.textContent = `Cards: ${cardCount}`;
+}
+
+// Disable buttons
 const disableButtons = (value) => {
   const editButtons = document.getElementsByClassName("edit");
   Array.from(editButtons).forEach((element) => {
@@ -118,7 +169,7 @@ const disableButtons = (value) => {
   });
 };
 
-// Hide the question form and show flashcards again
+// Hide question form
 const hideQuestion = () => {
   container.classList.remove("hide");
   addQuestionCard.classList.add("hide");
