@@ -1,63 +1,52 @@
-<!-- index.html (unchanged except for the script reference) -->
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Flashcard App</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <div class="container">
-      <div class="header-controls">
-        <span id="card-counter">Cards: 0</span>
-        <button id="toggle-dark-mode">
-          <i class="fa-solid fa-moon"></i>
-        </button>
-      </div>
-      <div class="add-flashcard-con">
-        <button id="clear-all">Clear All</button>
-        <button id="add-flashcard">Add Flashcard</button>
-      </div>
-
-      <div id="card-con">
-        <div class="card-list-container"></div>
-      </div>
-    </div>
-
-    <div class="question-container hide" id="add-question-card">
-      <h2>Add Flashcard</h2>
-      <div class="wrapper">
-        <div class="error-con">
-          <span class="hide" id="error">Input fields cannot be empty!</span>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Finder</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="toggle-container">
+            <label class="switch">
+                <input type="checkbox" id="darkModeToggle">
+                <span class="slider round"></span>
+            </label>
+            <span id="modeText">🌞 Light Mode</span>
         </div>
-        <i class="fa-solid fa-xmark" id="close-btn"></i>
-      </div>
+        <h1>Recipe Finder</h1>
+    </header>
 
-      <label for="question">Question:</label>
-      <textarea
-        class="input"
-        id="question"
-        placeholder="Type the question here..."
-        rows="2"
-      ></textarea>
-      <label for="answer">Answer:</label>
-      <textarea
-        class="input"
-        id="answer"
-        rows="4"
-        placeholder="Type the answer here..."
-      ></textarea>
-      <button id="save-btn">Save</button>
-    </div>
+    <main class="container">
+        <section class="ingredient-input">
+            <p>Find delicious recipes with your ingredients</p>
+            <div class="input-wrapper">
+                <input type="text" id="userInput" list="suggestions" placeholder="e.g., chicken, tomato">
+                <datalist id="suggestions"></datalist>
+                <button id="get-pairings"><i class="fas fa-search"></i> Find Recipes</button>
+            </div>
+        </section>
+
+        <section class="ingredient-image-container">
+            <img id="ingredientImage" class="ingredient-image" src="" alt="Ingredient Image">
+            <div id="ingredientInfo" class="ingredient-info"></div>
+        </section>
+
+        <section class="recipe-section">
+            <h2><i class="fas fa-utensils"></i> Recipes</h2>
+            <ul class="recipelist"></ul>
+        </section>
+
+        <section class="favorites-section">
+            <h2><i class="fas fa-star"></i> Favorite Recipes</h2>
+            <ul id="favoritesList"></ul>
+        </section>
+    </main>
 
     <script src="script.js"></script>
-  </body>
+</body>
 </html>
